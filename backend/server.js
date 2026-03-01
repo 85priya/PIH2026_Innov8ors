@@ -7,10 +7,10 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const PORT = 3000;
+
 
 // MongoDB connection
-const uri = "mongodb+srv://<username>:<password>@cluster0.mongodb.net/messfinder?retryWrites=true&w=majority";
+const uri = "mongodb+srv://Mess_Admin:Mess@inno8tor_5@cluster0.u84fvqy.mongodb.net/?appName=Cluster0";
 const client = new MongoClient(uri);
 
 async function connectDB() {
@@ -33,6 +33,7 @@ app.get("/messes", async(req, res) => {
         res.status(500).json({ error: "Failed to fetch data" });
     }
 });
+const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
     console.log(`Server running at http://localhost:${PORT}`);
