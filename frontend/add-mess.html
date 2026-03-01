@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Mess - MessFinder</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        body {
+            background: #f9fafc;
+            color: #333;
+        }
+        
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 8%;
+            background: white;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+        
+        .logo {
+            font-size: 22px;
+            font-weight: 700;
+            color: #ff5722;
+        }
+        
+        nav a {
+            margin-left: 20px;
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+        }
+        
+        nav a:hover {
+            color: #ff5722;
+        }
+        
+        .section {
+            padding: 60px 8%;
+        }
+        
+        form {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            max-width: 400px;
+            margin: auto;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+        }
+        
+        form input,
+        form select {
+            width: 100%;
+            padding: 8px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+        }
+        
+        form button {
+            padding: 10px;
+            width: 100%;
+            border: none;
+            background: #ff5722;
+            color: white;
+            border-radius: 8px;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+        
+        form button:hover {
+            opacity: 0.9;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="logo">🍽 MessFinder</div>
+        <nav>
+            <a href="index.html">Home</a>
+        </nav>
+    </header>
+
+    <section class="section">
+        <h2>Add New Mess</h2>
+        <form onsubmit="addMess(event)">
+            <input type="text" id="messName" placeholder="Mess Name">
+            <input type="text" id="messCity" placeholder="City">
+            <input type="number" id="messPrice" placeholder="Price per month">
+            <select id="messType">
+<option value="Veg">Veg</option>
+<option value="Non-Veg">Non-Veg</option>
+</select>
+            <input type="number" id="messRating" placeholder="Rating 1-5" min="1" max="5">
+            <input type="text" id="messImg" placeholder="Image URL">
+            <button type="submit">Add Mess</button>
+        </form>
+    </section>
+
+    <script>
+        function addMess(e) {
+            e.preventDefault();
+            let messes = JSON.parse(localStorage.getItem("messes")) || [];
+
+            let name = document.getElementById("messName").value;
+            let city = document.getElementById("messCity").value;
+            let price = parseInt(document.getElementById("messPrice").value);
+            let type = document.getElementById("messType").value;
+            let rating = parseInt(document.getElementById("messRating").value);
+            let img = document.getElementById("messImg").value;
+
+            if (!name || !city || !price || !type || !rating || !img) {
+                alert("Fill all fields!");
+                return;
+            }
+
+            messes.push({
+                name,
+                city,
+                price,
+                type,
+                rating,
+                img
+            });
+            localStorage.setItem("messes", JSON.stringify(messes));
+            alert("Mess added successfully!");
+            window.location.href = "index.html";
+        }
+    </script>
+
+</body>
+
+</html>

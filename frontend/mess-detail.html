@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mess Details</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f9fafc;
+            color: #333;
+        }
+        
+        h1,
+        h2,
+        h3 {
+            color: #ff5722;
+        }
+        
+        img {
+            width: 100%;
+            max-width: 400px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            color: white;
+            margin-top: 5px;
+        }
+        
+        .veg {
+            background: green;
+        }
+        
+        .nonveg {
+            background: red;
+        }
+        
+        .plan,
+        .menu,
+        .reviews,
+        .weekly-plan {
+            margin-top: 15px;
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .plan h3,
+        .menu h3,
+        .reviews h3,
+        .weekly-plan h3 {
+            margin-bottom: 10px;
+        }
+        
+        .plan-item {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 10px;
+            margin-bottom: 10px;
+            background: #fdfdfd;
+        }
+        
+        .plan-item h4 {
+            margin-bottom: 5px;
+            color: #ff5722;
+        }
+        
+        .plan-item p,
+        .plan-item ul,
+        .plan-item li {
+            font-size: 14px;
+            color: #555;
+            margin: 2px 0;
+        }
+        
+        .join-btn {
+            display: inline-block;
+            padding: 8px 15px;
+            background: green;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            margin-top: 10px;
+            text-decoration: none;
+        }
+        
+        .custom-plan {
+            margin-top: 15px;
+            padding: 15px;
+            background: #fff3e0;
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        
+        table th,
+        table td {
+            padding: 8px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        
+        table th {
+            background: #ff5722;
+            color: white;
+        }
+        
+        .menu ul,
+        .reviews ul {
+            list-style: disc;
+            margin-left: 20px;
+        }
+        
+        .rating-bar {
+            background: #ddd;
+            border-radius: 5px;
+            width: 100%;
+            height: 12px;
+            position: relative;
+            margin-bottom: 5px;
+        }
+        
+        .rating-fill {
+            background: #ffb400;
+            height: 100%;
+            border-radius: 5px;
+        }
+        
+        .review-item {
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .review-form input,
+        .review-form textarea,
+        .review-form button {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+        
+        .review-form button {
+            background: #ff5722;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .review-form button:hover {
+            background: #e64a19;
+        }
+        
+        .home-btn {
+            display: inline-block;
+            padding: 8px 12px;
+            margin-bottom: 15px;
+            background: #ff5722;
+            color: white;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .home-btn:hover {
+            background: #e64a19;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Home Button -->
+    <a href="index.html" class="home-btn">🏠 Home</a>
+
+    <div id="messDetail"></div>
+
+    <script>
+        // Fetch messes from localStorage
+        let messes = JSON.parse(localStorage.getItem("messes")) || [];
+        const params = new URLSearchParams(window.location.search);
+        const index = parseInt(params.get("index"));
+
+        // Example reviews
+        if (!messes[index].reviews) {
+            messes[index].reviews = [{
+                name: "Amit Sharma",
+                time: "2 weeks ago",
+                review: "The food is absolutely delicious and reminds me of home. The staff is very friendly and the place is always clean. Highly recommended!"
+            }, {
+                name: "Priya Singh",
+                time: "1 month ago",
+                review: "Great food quality and taste. The monthly plan is very affordable. The only issue is sometimes it gets crowded during peak hours."
+            }, {
+                name: "Rahul Verma",
+                time: "2 months ago",
+                review: "Best mess in the area! The food is always fresh and tasty. The owner is very friendly and accommodating to special requests."
+            }];
+        }
+
+        if (!messes[index].ratingData) {
+            messes[index].ratingData = {
+                average: 4.5,
+                totalReviews: 100,
+                distribution: {
+                    5: 70,
+                    4: 20,
+                    3: 7,
+                    2: 2,
+                    1: 1
+                }
+            };
+        }
+
+        // Check valid mess
+        if (!messes[index]) {
+            document.getElementById("messDetail").innerHTML = "<p>Mess details not found!</p>";
+        } else {
+            const m = messes[index];
+            const rd = m.ratingData;
+            document.getElementById("messDetail").innerHTML = `
+        <img src="${m.img}" alt="${m.name}">
+        <h1>${m.name}</h1>
+        <p>📍 ${m.city}</p>
+        <p>💰 ₹${m.price}/month</p>
+        <span class="badge ${m.type==="Veg"?"veg":"nonveg"}">${m.type}</span>
+
+        <!-- Plans Section -->
+        <div class="plan">
+        <h3>Plans</h3>
+        <div class="plan-item">
+            <h4>2 Meals/Day</h4>
+            <p>No description</p>
+            <p>Price: ₹2600</p>
+            <p>Features:</p>
+            <ul>
+                <li>MONTHLY</li>
+                <li>DELIVERY</li>
+                <li>PER MEAL</li>
+                <li>${m.type.toUpperCase()}</li>
+                <li>Hygienic Food</li>
+                <li>24/7 Availability</li>
+                <li>Quality Ingredients</li>
+                <li>Safe and Clean Environment</li>
+            </ul>
+            <a href="#" class="join-btn">Join Now</a>
+        </div>
+        <div class="custom-plan">
+            <h4>Custom Plans</h4>
+            <p>Need a custom plan? Contact us to discuss your specific requirements.</p>
+            <a href="mailto:contact@messfinder.com" class="join-btn">Contact for Custom Plan</a>
+        </div>
+        </div>
+
+        <!-- Weekly Meal Plan -->
+        <div class="weekly-plan">
+          <h3>Weekly Meal Plan</h3>
+          <table>
+            <thead>
+              <tr>
+                <th>Day</th>
+                <th>Breakfast</th>
+                <th>Lunch</th>
+                <th>Dinner</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"].map(day=>`
+                <tr>
+                  <td>${day}</td>
+                  <td>Start meal of the day</td>
+                  <td>Midday meal to keep you going</td>
+                  <td>End meal of the day</td>
+                </tr>`).join("")}
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Menus Section -->
+        <div class="menu">
+        <h3>Menus</h3>
+        <ul>
+            <li>Roti</li>
+            <li>Chapati</li>
+            <li>Dal</li>
+            <li>Rice</li>
+            <li>Sabji</li>
+            <li>Salad</li>
+        </ul>
+        </div>
+
+        <!-- Reviews Section -->
+        <div class="reviews">
+        <h3>Reviews</h3>
+        <p>Average Rating: ${rd.average} ⭐ | ${rd.totalReviews} reviews</p>
+        ${Object.keys(rd.distribution).map(star=>`
+            <div>${star} stars <div class="rating-bar"><div class="rating-fill" style="width:${rd.distribution[star]}%"></div></div>${rd.distribution[star]}%</div>
+        `).join("")}
+        <ul>${m.reviews.map(r=>`<li class="review-item"><strong>${r.name}</strong> (${r.time})<br>${r.review}</li>`).join("")}</ul>
+
+        <!-- Write a Review Form -->
+        <h4>Write a Review</h4>
+        <form class="review-form" onsubmit="addReview(event)">
+            <label>Your Rating</label>
+            <select id="newRating" required>
+                <option value="">Select</option>
+                <option value="5">5⭐</option>
+                <option value="4">4⭐</option>
+                <option value="3">3⭐</option>
+                <option value="2">2⭐</option>
+                <option value="1">1⭐</option>
+            </select>
+            <label>Your Review</label>
+            <textarea id="newReview" placeholder="Write your experience with this mess..." required></textarea>
+            <label>Your Name</label>
+            <input type="text" id="reviewName" placeholder="Enter your name" required>
+            <label>Your Email</label>
+            <input type="email" id="reviewEmail" placeholder="Enter your email" required>
+            <button type="submit">Submit Review</button>
+        </form>
+        </div>
+    `;
+}
+
+// Function to add a new review
+function addReview(event){
+    event.preventDefault();
+    const review = document.getElementById("newReview").value;
+    const name = document.getElementById("reviewName").value;
+    const email = document.getElementById("reviewEmail").value;
+    const rating = parseInt(document.getElementById("newRating").value);
+
+    if(!review || !name || !email || !rating) return;
+
+    const newReview = {
+        name: name,
+        time: "Just now",
+        review: review
+    };
+    messes[index].reviews.push(newReview);
+
+    // Update average rating & distribution
+    let totalRatings = messes[index].ratingData.totalReviews* messes[index].ratingData.average + rating;
+    messes[index].ratingData.totalReviews += 1;
+    messes[index].ratingData.average = (totalRatings/ messes[index].ratingData.totalReviews).toFixed(1);
+
+    if(!messes[index].ratingData.distribution[rating]) messes[index].ratingData.distribution[rating]=0;
+    messes[index].ratingData.distribution[rating] +=1;
+
+    localStorage.setItem("messes", JSON.stringify(messes));
+    location.reload();
+}
+    </script>
+</body>
+
+</html>

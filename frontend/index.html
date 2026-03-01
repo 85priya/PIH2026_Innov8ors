@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MessFinder - Find Your Perfect Mess</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        body {
+            background: #f9fafc;
+            color: #333;
+        }
+        
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 8%;
+            background: white;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+        
+        .logo {
+            font-size: 22px;
+            font-weight: 700;
+            color: #ff5722;
+        }
+        
+        nav a {
+            margin-left: 10px;
+            text-decoration: none;
+            color: #fff;
+            font-weight: 500;
+        }
+        
+        .add-btn {
+            background: #ff5722;
+            color: white !important;
+            padding: 8px 15px;
+            border-radius: 20px;
+            text-decoration: none;
+            margin-left: 10px;
+            transition: 0.3s;
+        }
+        
+        .add-btn:hover {
+            background: #e64a19;
+        }
+        /* Hero Section */
+        
+        .hero {
+            height: 50vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url("https://images.unsplash.com/photo-1504674900247-0877df9cc836");
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 15px;
+            animation: fadeInDown 1s;
+        }
+        
+        .hero p {
+            font-size: 18px;
+            margin-bottom: 20px;
+            animation: fadeInUp 1s;
+        }
+        
+        .hero button {
+            padding: 12px 25px;
+            border: none;
+            background: #ff5722;
+            color: white;
+            font-weight: 600;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: 0.3s;
+            animation: fadeInUp 1.2s;
+        }
+        
+        .hero button:hover {
+            background: #e64a19;
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        /* Animations */
+        
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        /* Sections */
+        
+        .section {
+            padding: 60px 8%;
+        }
+        
+        .section h2 {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+        }
+        
+        .search-box input,
+        .search-box select {
+            padding: 10px;
+            flex: 1;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+        }
+        
+        .mess-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        
+        .mess-card {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+            transition: 0.3s;
+        }
+        
+        .mess-card:hover {
+            transform: scale(1.03);
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            color: white;
+            margin-top: 5px;
+        }
+        
+        .veg {
+            background: green;
+        }
+        
+        .nonveg {
+            background: red;
+        }
+        
+        .rating span {
+            cursor: pointer;
+            font-size: 18px;
+            color: #ccc;
+        }
+        
+        .rating span.filled {
+            color: #ffb400;
+        }
+        /* CTA Section Interactive */
+        
+        .cta-section {
+            background: #ff5722;
+            color: white;
+            text-align: center;
+            padding: 50px 8%;
+            border-radius: 15px;
+            margin-top: 30px;
+            position: relative;
+            overflow: hidden;
+            transition: 0.3s;
+        }
+        
+        .cta-section:hover {
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+            transform: scale(1.02);
+        }
+        
+        .cta-section h2 {
+            font-size: 32px;
+            animation: fadeInUp 1s;
+        }
+        
+        .cta-section p {
+            font-size: 18px;
+            animation: fadeInUp 1.2s;
+        }
+        
+        .cta-section button {
+            margin-top: 15px;
+            padding: 12px 25px;
+            background: white;
+            color: #ff5722;
+            font-weight: 600;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: 0.3s;
+            animation: fadeInUp 1.4s;
+        }
+        
+        .cta-section button:hover {
+            background: #ffe0b2;
+            transform: scale(1.05);
+        }
+        /* Testimonials */
+        
+        .testimonials {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            text-align: center;
+            margin-top: 40px;
+        }
+        
+        .testimonial-card {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+        }
+        
+        .testimonial-card img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin-bottom: 10px;
+        }
+        /* Footer */
+        
+        footer {
+            background: #222;
+            color: white;
+            padding: 40px 8%;
+        }
+        
+        footer h3 {
+            margin-bottom: 15px;
+            color: white;
+        }
+        
+        footer a {
+            color: #fff;
+            text-decoration: none;
+        }
+        
+        footer a:hover {
+            color: #ff5722;
+        }
+        
+        footer .footer-section {
+            margin-bottom: 20px;
+        }
+        
+        footer input[type="email"] {
+            padding: 8px;
+            width: 70%;
+            border-radius: 5px;
+            border: none;
+            margin-right: 5px;
+        }
+        
+        footer button {
+            padding: 8px 12px;
+            border: none;
+            background: #ff5722;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        footer button:hover {
+            background: #e64a19;
+        }
+        /* Modal Styles */
+        
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 10000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background: rgba(0, 0, 0, 0.6);
+        }
+        
+        .modal-content {
+            background: white;
+            margin: 10% auto;
+            padding: 30px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 400px;
+            position: relative;
+        }
+        
+        .modal-content h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .close {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 25px;
+            font-weight: bold;
+            color: #333;
+            cursor: pointer;
+        }
+        
+        .modal input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+        
+        .modal button {
+            width: 100%;
+            padding: 12px;
+            background: #ff5722;
+            color: white;
+            font-weight: 600;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: 0.3s;
+        }
+        
+        .modal button:hover {
+            background: #e64a19;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="logo">🍽 MessFinder</div>
+        <nav>
+            <a href="#explore">Explore</a>
+            <a href="#" class="add-btn" onclick="openModal('signupModal')">Sign Up</a>
+            <a href="#" class="add-btn" onclick="openModal('signinModal')">Sign In</a>
+            <a href="add-mess.html" class="add-btn">Register Your Mess</a>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <h1>Ready to find your perfect mess?</h1>
+        <p>Join thousands of satisfied users who have found their ideal mess service through MessFinder.</p>
+        <button onclick="scrollToExplore()">Find Mess</button>
+    </section>
+
+    <section class="section" id="explore">
+        <h2>Explore Mess Services</h2>
+        <div class="search-box">
+            <input type="text" id="citySearch" placeholder="Search by city..." onkeyup="displayMesses()">
+            <select id="typeFilter" onchange="displayMesses()">
+<option value="">All Types</option>
+<option value="Veg">Veg</option>
+<option value="Non-Veg">Non-Veg</option>
+</select>
+            <select id="ratingFilter" onchange="displayMesses()">
+<option value="">All Ratings</option>
+<option value="5">5⭐</option>
+<option value="4">4⭐ & above</option>
+<option value="3">3⭐ & above</option>
+</select>
+        </div>
+        <div class="mess-grid" id="messList"></div>
+    </section>
+
+    <!-- User Testimonials -->
+    <section class="section">
+        <h2>What Our Users Say</h2>
+        <div class="testimonials">
+            <div class="testimonial-card">
+                <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Rahul Sharma">
+                <h3>Rahul Sharma</h3>
+                <p>"MessFinder helped me find an amazing mess service near my college. The food is delicious and affordable."</p>
+            </div>
+            <div class="testimonial-card">
+                <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Priya Singh">
+                <h3>Priya Singh</h3>
+                <p>"As a working professional, finding a good mess was always a challenge. MessFinder made it easy!"</p>
+            </div>
+            <div class="testimonial-card">
+                <img src="https://randomuser.me/api/portraits/men/56.jpg" alt="Amit Patel">
+                <h3>Amit Patel</h3>
+                <p>"The variety of mess options available is impressive. I could compare and choose what best suited me."</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive CTA Section -->
+    <section class="cta-section">
+        <h2>Join MessFinder Today!</h2>
+        <p>Register your mess or find the perfect plan for yourself in just a few clicks.</p>
+        <button onclick="openModal('signupModal')">Sign Up Now</button>
+        <button onclick="scrollToExplore()" style="background:white;color:#ff5722;margin-left:10px;">Find Mess</button>
+    </section>
+
+    <!-- Sign Up Modal -->
+    <div id="signupModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('signupModal')">&times;</span>
+            <h2>Sign Up</h2>
+            <input type="text" placeholder="Name">
+            <input type="email" placeholder="Email">
+            <input type="password" placeholder="Password">
+            <button>Sign Up</button>
+        </div>
+    </div>
+
+    <!-- Sign In Modal -->
+    <div id="signinModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('signinModal')">&times;</span>
+            <h2>Sign In</h2>
+            <input type="email" placeholder="Email">
+            <input type="password" placeholder="Password">
+            <button>Sign In</button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-flex">
+            <div class="footer-section">
+                <h3>MessFinder</h3>
+                <p>Connecting hungry individuals with quality mess services for homely, delicious, and affordable meals.</p>
+                <p>Lalpur, Peace Road, Jharkhand, India<br>+91 1234567890<br>contact@messfinder.com</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <a href="#">Home</a><br>
+                <a href="#">Find Mess</a><br>
+                <a href="add-mess.html">Register Mess</a><br>
+                <a href="#">Contact</a>
+            </div>
+            <div class="footer-section">
+                <h3>Legal</h3>
+                <a href="#">Terms of Service</a><br>
+                <a href="#">Privacy Policy</a><br>
+                <a href="#">Shipping Policy</a><br>
+                <a href="#">Cookie Policy</a><br>
+                <a href="#">Refund Policy</a>
+            </div>
+            <div class="footer-section">
+                <h3>Subscribe</h3>
+                <p>Subscribe to our newsletter to get updates on new mess services and offers.</p>
+                <input type="email" placeholder="Email Address">
+                <button>Subscribe</button>
+            </div>
+        </div>
+        <p style="text-align:center;margin-top:20px;">© 2026 MessFinder. All rights reserved.</p>
+    </footer>
+
+    <script>
+        let defaultMesses = [{
+            name: "Annapurna Mess",
+            city: "Nagpur",
+            price: 2500,
+            type: "Veg",
+            rating: 4,
+            img: "images/veg1.png"
+        }, {
+            name: "Spice Kitchen",
+            city: "Pune",
+            price: 3200,
+            type: "Non-Veg",
+            rating: 5,
+            img: "images/image.png"
+        }, {
+            name: "Healthy Bites",
+            city: "Mumbai",
+            price: 4000,
+            type: "Veg",
+            rating: 3,
+            img: "images/veg2.png"
+        }];
+
+        // Get messes from localStorage
+        let savedMesses = JSON.parse(localStorage.getItem("messes")) || [];
+
+        // Merge defaults with saved messes
+        let messes = [...defaultMesses, ...savedMesses];
+
+        function displayMesses() {
+            g
+            let list = document.getElementById("messList");
+            list.innerHTML = "";
+            let city = document.getElementById("citySearch").value.toLowerCase();
+            let type = document.getElementById("typeFilter").value;
+            let rating = document.getElementById("ratingFilter").value;
+
+            messes.filter(m => (!city || m.city.toLowerCase().includes(city)) && (!type || m.type === type) && (!rating || m.rating >= parseInt(rating)))
+                .forEach((m, i) => {
+                    list.innerHTML += `
+<div class="mess-card">
+<img src="${m.img}" style="width:100%;border-radius:10px;margin-bottom:10px;">
+<h3>${m.name}</h3>
+<p>📍 ${m.city}</p>
+<p>💰 ₹${m.price}/month</p>
+<span class="badge ${m.type==="Veg"?"veg":"nonveg"}">${m.type}</span>
+<p class="rating" data-index="${i}"><span>⭐</span><span>⭐</span><span>⭐</span><span>⭐</span><span>⭐</span></p>
+<button onclick="viewDetails(${i})" style="margin-top:10px;background:green;color:white;padding:8px 12px;border:none;border-radius:5px;cursor:pointer;">View Details</button>
+</div>`;
+                });
+            setupRatings();
+        }
+
+        function setupRatings() {
+            document.querySelectorAll(".rating").forEach(r => {
+                const stars = r.querySelectorAll("span");
+                stars.forEach((star, index) => {
+                    star.onmouseover = () => {
+                        stars.forEach((s, i) => s.classList.toggle("filled", i <= index));
+                    }
+                    star.onmouseout = () => {
+                        stars.forEach((s, i) => s.classList.toggle("filled", i < messes[r.dataset.index].rating));
+                    }
+                    star.onclick = () => {
+                        messes[r.dataset.index].rating = index + 1;
+                        displayMesses();
+                    }
+                });
+                stars.forEach((s, i) => s.classList.toggle("filled", i < messes[r.dataset.index].rating));
+            });
+        }
+
+        function viewDetails(index) {
+            window.location.href = `mess-detail.html?index=${index}`;
+        }
+
+        function scrollToExplore() {
+            document.getElementById("explore").scrollIntoView({
+                behavior: "smooth"
+            });
+        }
+
+        // Modal functions
+        function openModal(id) {
+            document.getElementById(id).style.display = "block";
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).style.display = "none";
+        }
+
+        displayMesses();
+    </script>
+
+</body>
+
+</html>
